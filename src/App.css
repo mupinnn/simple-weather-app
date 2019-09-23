@@ -44,22 +44,27 @@ table {
   box-sizing: border-box;
 }
 
-.Cards {
-  margin-top: 20px;
+.Cards-today {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.Result-title {
+.Result-info {
   font-size: 20px;
   padding: 5px;
-  margin: 10px 0;
+  margin-top: 20px;
+}
+
+.City-name {
+  font-size: 34px;
+  padding: 5px;
 }
 
 .Card-today {
-  width: 400px;
+  width: 500px;
   margin: 10px;
   padding: 10px;
   display: flex;
@@ -78,8 +83,7 @@ table {
   border-left: 1px solid #ccc;
 }
 
-.Weather-cond > .Cond-desc {
-  padding: 5px;
+.Weather-cond > .Weather-main, .Weather-desc {
   font-size: 16px;
   box-sizing: border-box;
 }
@@ -105,7 +109,8 @@ table {
 
 .Weather-details > .Date-time {
   padding: 5px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
   box-sizing: border-box;
 }
 
@@ -113,6 +118,43 @@ table {
   width: 100%;
   padding: 5px;
   box-sizing: border-box;
+}
+
+.Cards-next-five {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.Card-next-five {
+  width: 220px;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #222;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+.Card-next-five > .Date-time {
+  padding: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
+.Card-next-five > .Weather-desc, .Humid {
+  font-style: italic;
+}
+
+.Card-next-five > .Temperature-cond {
+  font-size: 20px;
+  font-weight: bold;
 }
 
 /* RESPONSIVE BREAKPOINTS */
