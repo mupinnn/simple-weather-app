@@ -7,8 +7,8 @@ class SearchBar extends React.Component {
 
     render() {
         return (
-            <form>
-                <input type="text" className="Search-input" placeholder="Enter city name . . ." />
+            <form onSubmit={this.props.searchSubmit}>
+                <input type="text" className="Search-input" onChange={this.props.searchInput} value={this.props.value} placeholder="Enter city name . . ." />
                 <button type="submit" className="Search-submit">
                     <FontAwesomeIcon style={{color: "white"}} icon={faSearch} />
                 </button>

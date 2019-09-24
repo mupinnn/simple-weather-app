@@ -6,13 +6,24 @@ import './App.css';
 
 class App extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentWeatherData: [],
+            fiveDayForecastData: [],
+            searchedCity: "",
+            isAllowLocation: true
+        }
+    }
+
     render() {
+        const {searchedCity} = this.state;
         return (
             <div className="App">
                 <header className="App-header">
                     <h1 className="App-title">Simple Weather Forecasts App</h1>
                 </header>
-                <SearchBar />
+                <SearchBar value={searchedCity} searchSubmit={this.handleSubmit} searchInput={this.handleInput} />
                 <TodayForecasts />
                 <NextFiveDayForecasts />
                 <footer className="App-footer">
