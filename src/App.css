@@ -1,3 +1,7 @@
+html {
+  position: relative;
+}
+
 /* RESET */
 h1, h2, h3, h4, h5, h6, p {
   margin: 0;
@@ -13,6 +17,7 @@ table {
 
 /* BASE STYLE */
 .App {
+  font-family: 'Lato', sans-serif;
   padding: 0 15px;
   margin: 0 auto;
   display: flex;
@@ -21,7 +26,9 @@ table {
 }
 
 .App-title {
+  font-family: 'Lustria', serif;
   font-size: 42px;
+  text-align: center;
   padding: 5px;
   margin: 10px 0;
 }
@@ -29,16 +36,21 @@ table {
 .Search-input {
   height: 30px;
   padding: 14px;
-  border: 1px solid #222;
+  border-top: 1px solid #315b96;
+  border-left: 1px solid #315b96;
+  border-right: 0;
+  border-bottom: 1px solid #315b96;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
   box-sizing: border-box;
 }
 
 .Search-submit {
+  padding: 0 10px;
   height: 30px;
   text-align: center;
-  border: 1px solid #222;
+  background-color: #315b96;
+  border: 0;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
   box-sizing: border-box;
@@ -69,8 +81,9 @@ table {
   padding: 10px;
   display: flex;
   flex-direction: row;
-  border: 1px solid #222;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+  border: 1px solid #d4d7dd;
+  border-radius: 25px;
+  box-shadow: 2px 2px 6px rgb(236, 244, 243);
   box-sizing: border-box;
 }
 
@@ -136,8 +149,9 @@ table {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #222;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+  border: 1px solid #d4d7dd;
+  border-radius: 25px;
+  box-shadow: 2px 2px 6px rgb(236, 244, 243);
   box-sizing: border-box;
 }
 
@@ -157,4 +171,88 @@ table {
   font-weight: bold;
 }
 
+.App-footer {
+  margin: 20px 0;
+}
+
+.App-footer > p > a {
+  text-decoration: none;
+  font-weight: bolder;
+}
+
+.Heart {
+  color: red;
+}
+
+.Cards-info {
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.Card-info {
+  width: 200px;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  background-color: #1089ff;
+  border-radius: 10px;
+}
+
+.Card-danger {
+  width: 200px;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  background-color: #ef4b4b;
+  border-radius: 10px;
+}
+
 /* RESPONSIVE BREAKPOINTS */
+/* Extra small devices */
+@media (min-width: 310px) and (max-width: 575.98px) {
+
+  .App-title {
+    font-size: 32px;
+  }
+
+  .Result-info {
+    text-align: center;
+    font-size: 18px;
+  }
+
+  .City-name {
+    font-size: 28px;
+  }
+
+  .Card-today {
+    width: 220px;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .Card-today > .Weather-cond {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-left: 0;
+  }
+
+  .Card-today > .Weather-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right: 0;
+  }
+
+  .Weather-details > table {
+    text-align: center;
+  }
+
+}

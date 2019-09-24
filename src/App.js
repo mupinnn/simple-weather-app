@@ -15,7 +15,9 @@ class App extends React.Component {
                 <SearchBar />
                 <TodayForecasts />
                 <NextFiveDayForecasts />
-                <footer className="App-footer"></footer>
+                <footer className="App-footer">
+                    <p>Made with <span className="Heart">&#10084;</span> by <a href="https://github.com/mupinnn" target="_blank" rel="noopener noreferrer">@mupinnn</a> &copy; 2019</p>
+                </footer>
             </div>
         );
     }
