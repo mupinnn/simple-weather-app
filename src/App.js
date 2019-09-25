@@ -11,8 +11,7 @@ class App extends React.Component {
         this.state = {
             currentWeatherData: [],
             fiveDayForecastData: [],
-            searchedCity: "",
-            inputVal: ""
+            searchedCity: ""
         }
         
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,32 +20,31 @@ class App extends React.Component {
 
     // Get data by name
     getWeatherDataByCityName = (name) => {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${process.env.REACT_APP_API_KEY}`)
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${name}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => response.json())
             .then(result => this.setState({currentWeatherData: result}));
     }
 
     // Get data by latitude & longitude
     getWeatherDataByLatLong = (lat, long) => {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${process.env.REACT_APP_API_KEY}`)
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => response.json())
             .then(result => this.setState({currentWeatherData: result}));
     }
 
     // Handle input change
     handleInput = (e) => {
-        this.setState({inputVal: e.target.value});
+        this.setState({searchedCity: e.target.value});
     }
 
     // Handle form submit
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({
-            searchedCity: this.state.inputVal,
-            inputVal: ""
-        });
 
         this.getWeatherDataByCityName(this.state.searchedCity);
+
+        // Clear input state
+        this.setState({searchedCity: ""});
     }
 
     // Show current latitude, longitude position
@@ -57,6 +55,7 @@ class App extends React.Component {
         this.getWeatherDataByLatLong(lat, long);
     }
 
+    // Error callbacks for getCurrentPosition
     errPosition = () => {
         console.log("denied");
     }
@@ -89,14 +88,14 @@ class App extends React.Component {
     }
 
     render() {
-        const {inputVal, searchedCity, currentWeatherData, fiveDayForecastData} = this.state;
+        const currentWeatherData = this.state.currentWeatherData;
         return (
             <div className="App">
                 <header className="App-header">
                     <h1 className="App-title">Simple Weather Forecasts App</h1>
                 </header>
-                <SearchBar inputValue={inputVal} searchSubmit={this.handleSubmit} searchInput={this.handleInput} />
-                <TodayForecasts />
+                <SearchBar inputVal={this.state.searchedCity} searchInput={this.handleInput} searchSubmit={this.handleSubmit} />
+                <TodayForecasts todays={currentWeatherData} />
                 <NextFiveDayForecasts />
                 <footer className="App-footer">
                     <p>Made with <span className="Heart">&#10084;</span> by <a href="https://github.com/mupinnn" target="_blank" rel="noopener noreferrer">@mupinnn</a> &copy; 2019</p>
