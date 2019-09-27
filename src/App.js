@@ -11,7 +11,9 @@ class App extends React.Component {
         this.state = {
             currentWeatherData: [],
             fiveDayForecastData: [],
-            searchedCity: ""
+            searchedCity: "",
+            geoErrorMsg: "",
+            isLoading: true
         }
         
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,16 +22,23 @@ class App extends React.Component {
 
     // Get data by name
     getWeatherDataByCityName = (name) => {
+        this.setState({geoErrorMsg: "", isLoading: true});
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${name}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => response.json())
-            .then(result => this.setState({currentWeatherData: result}));
+            .then(result => this.setState({currentWeatherData: result, isLoading: false}));
     }
 
     // Get data by latitude & longitude
     getWeatherDataByLatLong = (lat, long) => {
         fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => response.json())
-            .then(result => this.setState({currentWeatherData: result}));
+            .then(result => this.setState({currentWeatherData: result, isLoading: false}));
+    }
+
+    forecast = (lat, long) => {
+        fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
+            .then(response => response.json())
+            .then(result => this.setState({fiveDayForecastData: result}));
     }
 
     // Handle input change
@@ -47,55 +56,51 @@ class App extends React.Component {
         this.setState({searchedCity: ""});
     }
 
-    // Show current latitude, longitude position
-    showPosition = (position) => {
-        const lat = position.coords.latitude;
-        const long = position.coords.longitude;
-
-        this.getWeatherDataByLatLong(lat, long);
-    }
-
-    // Error callbacks for getCurrentPosition
-    errPosition = () => {
-        console.log("denied");
-    }
-
-    // Handle geolocation permission
-    handleGeoPermission = () => {
-        const geoSettings = {enableHighAccuracy: true};
-        const showPosition = this.showPosition;
-        const errPosition = this.errPosition;
-        navigator.permissions.query({name: "geolocation"}).then(function(result) {
-            if (result.state === "granted") {
-                console.log(result.state);
-                navigator.geolocation.getCurrentPosition(showPosition, errPosition, geoSettings);
-            } else if (result.state === "prompt") {
-                console.log(result.state);
-                navigator.geolocation.getCurrentPosition(showPosition, errPosition, geoSettings);
-            } else {
-                console.log("denied");
-            }
-        });
-    }
-
-    // Do componentDidMount, and check if geolocation feature is allowed.
-    componentDidMount() {
+    // Get current location
+    getCurrentLocation = () => {
+        // Check if geolocation is availabel
         if (navigator.geolocation) {
-            this.handleGeoPermission();
+            navigator.geolocation.getCurrentPosition(pos => {
+                this.getWeatherDataByLatLong(pos.coords.latitude, pos.coords.longitude);
+                this.forecast(pos.coords.latitude, pos.coords.longitude);
+            }, err => {
+                switch (err.code) {
+                    case err.PERMISSION_DENIED:
+                        this.setState({geoErrorMsg: err.code});
+                        break;
+                    case err.POSITION_UNAVAILABLE:
+                        this.setState({geoErrorMsg: err.code});
+                        break;
+                    case err.TIMEOUT:
+                        this.setState({geoErrorMsg: err.code});
+                        break;
+                    case err.UNKNOWN_ERROR:
+                        this.setState({geoErrorMsg: err.code});
+                        break;
+                    default:
+                        this.setState({geoErrorMsg: err.code});
+                        break;
+                }
+            });
         } else {
-            console.log("your browser doesn't support geolocation features. pls type on the field above");
+            this.setState({geoErrorMsg: "notsupported"});
         }
     }
 
+    // Execute get data by current location in first render
+    componentDidMount() {
+        this.getCurrentLocation();
+    }
+
     render() {
-        const currentWeatherData = this.state.currentWeatherData;
+        const {currentWeatherData, geoErrorMsg, isLoading} = this.state;
         return (
             <div className="App">
                 <header className="App-header">
                     <h1 className="App-title">Simple Weather Forecasts App</h1>
                 </header>
                 <SearchBar inputVal={this.state.searchedCity} searchInput={this.handleInput} searchSubmit={this.handleSubmit} />
-                <TodayForecasts todays={currentWeatherData} />
+                <TodayForecasts todays={currentWeatherData} geoErrorMsg={geoErrorMsg} isLoading={isLoading} />
                 <NextFiveDayForecasts />
                 <footer className="App-footer">
                     <p>Made with <span className="Heart">&#10084;</span> by <a href="https://github.com/mupinnn" target="_blank" rel="noopener noreferrer">@mupinnn</a> &copy; 2019</p>
