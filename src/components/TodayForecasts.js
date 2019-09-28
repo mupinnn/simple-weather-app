@@ -10,36 +10,91 @@ class TodayForecasts extends React.Component {
         const loading = this.props.isLoading;
 
         if (geoError === 1 || geoError === "1") {
-            return <p>denied</p>
+            return (
+                <div className="Cards-info">
+                    <div className="Card-info">
+                        Please turn on your browser geolocation feature. Or try to search your location manually.
+                    </div>
+                </div>
+            );
         } else if (geoError === 2 || geoError === "2") {
-            return <p>position unavailable</p>
+            return (
+                <div className="Cards-info">
+                    <div className="Card-danger">
+                        Internal error, failed to get your location. Try again later.
+                    </div>
+                </div>
+            );
         } else if (geoError === 3 || geoError === "3") {
-            return <p>timeout</p>
+            return (
+                <div className="Cards-info">
+                    <div className="Card-danger">
+                        Request timed out. Try again later
+                    </div>
+                </div>
+            );
         } else if (geoError === 0 || geoError === "0") {
-            return <p>unknown error</p>
+            return (
+                <div className="Cards-info">
+                    <div className="Card-danger">
+                        Unknown error. Try again later.
+                    </div>
+                </div>
+            );
         } else if (geoError === "notsupported") {
-            return <p>not supported</p>
+            return (
+                <div className="Cards-info">
+                    <div className="Card-info">
+                        Geolocation feature is not supported by this browser. 
+                        Try to update your browser to the latest version or search your location manually.
+                    </div>
+                </div>
+            );
         } else {
             if (loading) {
-                return <p>loading</p>
+                return <div className="Loader"></div>
             } else {
                 if (today.cod === 404 || today.cod === "404") {
-                    return <p>404</p>
+                    return (
+                        <div className="Cards-info">
+                            <div className="Card-danger">
+                                Error 404 - City not found.
+                            </div>
+                        </div>
+                    );
                 } else if (today.cod === 401 || today.cod === "401") {
-                    return <p>401</p>
+                    return (
+                        <div className="Cards-info">
+                            <div className="Card-danger">
+                                Error 401 - Invalid API key.
+                            </div>
+                        </div>
+                    );
                 } else if (today.cod === 429 || today.cod === "429") {
-                    return <p>429</p>
+                    return (
+                        <div className="Cards-info">
+                            <div className="Card-danger">
+                                Error 429 - Services has reached maximum request. Try again later.
+                            </div>
+                        </div>
+                    );
                 } else if (today.cod === 500 || today.cod === "500") {
-                    return <p>500</p>
+                    return (
+                        <div className="Cards-info">
+                            <div className="Card-danger">
+                                Error 500 - Internal server error.
+                            </div>
+                        </div>
+                    );
                 } else {
                     return (
                         <React.Fragment>
-                            <h3 className="Result-info">Current weather based on your search :</h3>
+                            <h3 className="Result-info">Current weather based on your location :</h3>
                             <div className="Cards-today">
                                 <h2 className="City-name">{today.name}, {today.sys.country}</h2>
                                 <div className="Card-today">
                                     <div className="Weather-details">
-                                        <p className="Date-time">{moment.unix(today.dt).format("ddd, D MMMM YYYY")}</p>
+                                        <p className="Date-time">{moment.unix(today.dt).format("ddd, DD MMMM YYYY")}</p>
                                         <table>
                                             <tbody>
                                                 <tr>
@@ -60,11 +115,11 @@ class TodayForecasts extends React.Component {
                                                 </tr>
                                                 <tr>
                                                     <td>sunrise</td>
-                                                    <td>{moment.unix(today.sys.sunrise).format("LT")}</td>
+                                                    <td>{moment.unix(today.sys.sunrise).format("HH:mm A")}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>sunset</td>
-                                                    <td>{moment.unix(today.sys.sunset).format("LT")}</td>
+                                                    <td>{moment.unix(today.sys.sunset).format("HH:mm A")}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

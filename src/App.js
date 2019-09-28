@@ -103,7 +103,8 @@ class App extends React.Component {
                 <TodayForecasts todays={currentWeatherData} geoErrorMsg={geoErrorMsg} isLoading={isLoading} />
                 <NextFiveDayForecasts />
                 <footer className="App-footer">
-                    <p>Made with <span className="Heart">&#10084;</span> by <a href="https://github.com/mupinnn" target="_blank" rel="noopener noreferrer">@mupinnn</a> &copy; 2019</p>
+                    <p>The weather forecast is displayed in accordance with your local time. Please pay attention to it when you will watch the weather in another time zone.</p>
+                    <p>Made with <span className="Heart">&#10084;</span> by <a href="https://github.com/mupinnn" target="_blank" rel="noopener noreferrer">@mupinnn</a> &copy; 2019 - Weather data provided by <a href="https://openweathermap.org" target="_blank" rel="noopener noreferrer">OpenWeatherMap.org</a></p>
                 </footer>
             </div>
         );

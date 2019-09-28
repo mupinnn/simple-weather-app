@@ -70,6 +70,21 @@ table {
   margin-top: 20px;
 }
 
+.Loader {
+  margin: 20px 20px 0 20px;
+  border: 10px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 10px solid #1089ff;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
 .City-name {
   font-size: 34px;
   padding: 5px;
@@ -173,6 +188,13 @@ table {
 
 .App-footer {
   margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.App-footer > p {
+  margin-bottom: 10px;
 }
 
 .App-footer > p > a {
@@ -185,7 +207,7 @@ table {
 }
 
 .Cards-info {
-  margin: 20px;
+  margin: 20px 20px 0 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
