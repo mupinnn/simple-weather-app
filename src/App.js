@@ -1,7 +1,6 @@
 import React from 'react';
 import SearchBar from './components/SearchBar';
 import TodayForecasts from './components/TodayForecasts';
-import NextFiveDayForecasts from './components/NextFiveDayForecasts';
 import './App.css';
 
 class App extends React.Component {
@@ -20,25 +19,37 @@ class App extends React.Component {
         this.handleInput = this.handleInput.bind(this);
     }
 
-    // Get data by name
+    // Get current weather data by city name
     getWeatherDataByCityName = (name) => {
         this.setState({geoErrorMsg: "", isLoading: true});
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${name}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
-            .then(response => response.json())
-            .then(result => this.setState({currentWeatherData: result, isLoading: false}));
+        Promise.all([
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${name}&units=metric&appid=${process.env.REACT_APP_API_KEY}`),
+            fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${name}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
+        ])
+        .then(([response1, response2]) => Promise.all([response1.json(), response2.json()]))
+        .then(([result1, result2]) => {
+            this.setState({
+                currentWeatherData: result1,
+                fiveDayForecastData: result2,
+                isLoading: false
+            });
+        });
     }
 
-    // Get data by latitude & longitude
+    // Get current weather & five day foreast data by latitude & longitude
     getWeatherDataByLatLong = (lat, long) => {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
-            .then(response => response.json())
-            .then(result => this.setState({currentWeatherData: result, isLoading: false}));
-    }
-
-    forecast = (lat, long) => {
-        fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
-            .then(response => response.json())
-            .then(result => this.setState({fiveDayForecastData: result}));
+        Promise.all([
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${process.env.REACT_APP_API_KEY}`),
+            fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
+        ])
+        .then(([response1, response2]) => Promise.all([response1.json(), response2.json()]))
+        .then(([result1, result2]) => {
+            this.setState({
+                currentWeatherData: result1,
+                fiveDayForecastData: result2,
+                isLoading: false
+            });
+        });
     }
 
     // Handle input change
@@ -62,7 +73,6 @@ class App extends React.Component {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(pos => {
                 this.getWeatherDataByLatLong(pos.coords.latitude, pos.coords.longitude);
-                this.forecast(pos.coords.latitude, pos.coords.longitude);
             }, err => {
                 switch (err.code) {
                     case err.PERMISSION_DENIED:
@@ -93,15 +103,14 @@ class App extends React.Component {
     }
 
     render() {
-        const {currentWeatherData, geoErrorMsg, isLoading} = this.state;
+        const {currentWeatherData, fiveDayForecastData, geoErrorMsg, isLoading} = this.state;
         return (
             <div className="App">
                 <header className="App-header">
                     <h1 className="App-title">Simple Weather Forecasts App</h1>
                 </header>
                 <SearchBar inputVal={this.state.searchedCity} searchInput={this.handleInput} searchSubmit={this.handleSubmit} />
-                <TodayForecasts todays={currentWeatherData} geoErrorMsg={geoErrorMsg} isLoading={isLoading} />
-                <NextFiveDayForecasts />
+                <TodayForecasts todays={currentWeatherData} forecasts={fiveDayForecastData} geoErrorMsg={geoErrorMsg} isLoading={isLoading} />
                 <footer className="App-footer">
                     <p>The weather forecast is displayed in accordance with your local time. Please pay attention to it when you will watch the weather in another time zone.</p>
                     <p>Made with <span className="Heart">&#10084;</span> by <a href="https://github.com/mupinnn" target="_blank" rel="noopener noreferrer">@mupinnn</a> &copy; 2019 - Weather data provided by <a href="https://openweathermap.org" target="_blank" rel="noopener noreferrer">OpenWeatherMap.org</a></p>

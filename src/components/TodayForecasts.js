@@ -1,11 +1,13 @@
 import React from 'react';
 import '../App.css';
 import moment from 'moment';
+import NextFiveDayForecasts from './NextFiveDayForecasts';
 
 class TodayForecasts extends React.Component {
 
     render() {
         const today = this.props.todays;
+        const forecast = this.props.forecasts;
         const geoError = this.props.geoErrorMsg;
         const loading = this.props.isLoading;
 
@@ -132,6 +134,7 @@ class TodayForecasts extends React.Component {
                                     </div>
                                 </div>
                             </div>
+                            <NextFiveDayForecasts forecasts={forecast} />
                         </React.Fragment>
                     );
                 }
