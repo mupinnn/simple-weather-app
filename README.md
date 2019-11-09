@@ -9,8 +9,13 @@ I'm using the browsers geolocation features for detecting user location based on
 - Demo link : https://mupinnn.github.io/simple-weather-app/
 
 ## Download and Installation
-- Clone the repo : `$ git clone https://github.com/mupinnn/react-todo-list.git`
-- Install dependencies. Make sure you already have `nodejs` and `npm` or `yarn` installed in your system. Use `$ npm install or yarn install`
+- Clone the repo : `$ git clone https://github.com/mupinnn/react-todo-list.git`.
+- Install dependencies. Make sure you already have `nodejs` and `npm` or `yarn` installed in your system. Use `$ npm install or yarn install`.
+- Create [OpenWeatherMap](https://openweathermap.org/) account.
+- Check your email or check your account dashboard https://home.openweathermap.org/api_keys.
+- Copy your free API key, and create `.env` file in your project root folder.
+- Write this on your `.env` file : `REACT_APP_API_KEY=PASTE YOUR API KEY HERE`
+- Save it and try it using `npm or yarn start`
 
 ## Usage
 In the project directory, you can run :
