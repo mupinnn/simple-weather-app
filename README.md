@@ -6,7 +6,7 @@ A simple weather and forecast app developed with **React** and the weather data 
 
 I'm using the browsers geolocation features for detecting user location based on device latitude and longitude then get the weather data from [OpenWeatherMap](https://openweathermap.org/) API call. Users can refuse to activate the geolocation feature in their browser. Instead, users can use the search feature. Just type the city name and ***voila!***.
 
-- Demo link : https://mupinnn.github.io/simple-weather-app/
+- Demo link : https://react-weather-forecast.netlify.com/
 
 ## Download and Installation
 - Clone the repo : `$ git clone https://github.com/mupinnn/react-todo-list.git`.
